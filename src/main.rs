@@ -2,7 +2,7 @@ use std::time::Duration;
 
 use libbpf_rs::{
     skel::{OpenSkel, Skel, SkelBuilder},
-    RingBuffer, RingBufferBuilder,
+    RingBufferBuilder,
 };
 
 mod flames_bpf {
@@ -13,6 +13,10 @@ mod flames_bpf {
 }
 
 fn handle(data: &[u8]) -> i32 {
+    println!("Got data: {:?}", data);
+    let data = <[u8; 4]>::try_from(data).unwrap();
+    let num = u32::from_le_bytes(data);
+    println!("Got num: {}", num);
     return 0;
 }
 
@@ -33,6 +37,7 @@ fn main() {
         .add(&maps.ring_buffer(), handle)
         .unwrap();
     let ring_buffer = ring_buffer_builder.build().unwrap();
+
     loop {
         ring_buffer.poll(Duration::MAX).unwrap();
         println!("Successfully consumed from ring buffer");
