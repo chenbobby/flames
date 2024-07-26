@@ -20,11 +20,12 @@ bpftool -V
 
 > The minimum required version for `bpftool` is v5.5. This is because the [relevant Linux patch](https://patchwork.ozlabs.org/project/netdev/patch/20191018103404.12999-1-jolsa@kernel.org/) landed in mainline Linux v5.5.
 
-2. Install kernel headers for enabling `<linux/bpf.h>`
+2. Install kernel headers for enabling `<linux/bpf.h>` and `<bpf/bpf_helpers.h>`
 
 ```
 apt install linux-headers-$(uname -r)
 ln -s /usr/include/x86_64-linux-gnu/asm /usr/include/asm
+apt install libbpf-dev
 
 ```
 
