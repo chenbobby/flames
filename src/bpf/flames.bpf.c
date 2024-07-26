@@ -6,8 +6,10 @@
 
 char LICENSE[] SEC("license") = "Dual BSD/GPL";
 
+// This struct needs to be deconstructed in Rust.
 typedef struct {
     __u32 sample_id;
+    __u32 process_id;
 } flames_sample;
 
 // TODO: Send constant value to userspace program via some map.
@@ -28,6 +30,7 @@ int handle_exec(struct trace_event_raw_sched_process_exec* ctx) {
 
     // Extract data.
     sample->sample_id = bpf_get_prandom_u32();
+    sample->process_id = (__u32)(bpf_get_current_pid_tgid() >> 32);
 
     bpf_ringbuf_submit(sample,
                        0 // Send adaptive notification for data availability.

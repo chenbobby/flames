@@ -12,11 +12,15 @@ mod flames_bpf {
     ));
 }
 
-fn handle(data: &[u8]) -> i32 {
-    println!("Got data: {:?}", data);
-    let data = <[u8; 4]>::try_from(data).unwrap();
-    let num = u32::from_le_bytes(data);
-    println!("Got num: {}", num);
+fn handle(sample_data: &[u8]) -> i32 {
+    dbg!(sample_data);
+
+    let sample_id = u32::from_le_bytes(<[u8; 4]>::try_from(&sample_data[0..4]).unwrap());
+    dbg!(sample_id);
+
+    let process_id = i32::from_le_bytes(<[u8; 4]>::try_from(&sample_data[4..8]).unwrap());
+    dbg!(process_id);
+
     return 0;
 }
 
