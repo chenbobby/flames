@@ -21,6 +21,9 @@ fn handle(sample_data: &[u8]) -> i32 {
     let process_id = i32::from_le_bytes(<[u8; 4]>::try_from(&sample_data[4..8]).unwrap());
     dbg!(process_id);
 
+    let program_name = String::from_utf8(Vec::from(&sample_data[8..40])).unwrap();
+    dbg!(program_name);
+
     return 0;
 }
 
